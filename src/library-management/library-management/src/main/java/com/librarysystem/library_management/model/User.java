@@ -1,10 +1,12 @@
 package com.librarysystem.library_management.model;
 
-
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
+import jakarta.persistence.Table;
 
 @Entity
+@Table(name = "users")
+
 public class User {
 
     @Id
@@ -12,7 +14,6 @@ public class User {
     private String password;
     private String role;
 
-    // Constructors
     public User() {}
 
     public User(String username, String password, String role) {
@@ -21,7 +22,6 @@ public class User {
         this.role = role;
     }
 
-    // Getters and Setters
     public String getUsername() {
         return username;
     }

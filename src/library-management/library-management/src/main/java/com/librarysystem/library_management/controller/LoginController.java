@@ -20,15 +20,18 @@ public class LoginController {
 
     @PostMapping("/login")
     public String login(@RequestParam String username, @RequestParam String password, Model model) {
-        User user = userRepository.findByUsername(username);
 
+
+        User user = userRepository.findByUsername(username);
         if (user != null && user.getPassword().equals(password)) {
+
             if (user.getRole().equals("Admin")) {
                 return "admin";
             } else {
                 return "home";
             }
         } else {
+
             model.addAttribute("error", "Invalid credentials.");
             return "login";
         }
