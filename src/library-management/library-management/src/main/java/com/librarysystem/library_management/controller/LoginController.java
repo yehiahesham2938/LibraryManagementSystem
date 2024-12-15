@@ -14,20 +14,30 @@ public class LoginController {
 
     @Autowired
     private UserRepository userRepository;
+
     @GetMapping("/")
-    public String showLoginPage() {
+    public String showLoginPage()
+    {
         return "login";  }
+    @GetMapping("/login")
+    public String ShowAfterRegister()
+    {
+        return "login";  }
+
 
     @PostMapping("/login")
     public String login(@RequestParam String username, @RequestParam String password, Model model) {
 
 
         User user = userRepository.findByUsername(username);
-        if (user != null && user.getPassword().equals(password)) {
+        if (user.getPassword().equals(password)) {
 
-            if (user.getRole().equals("Admin")) {
+            if (user.getRole().equals("Admin"))
+            {
                 return "admin";
-            } else {
+            }
+            else
+            {
                 return "home";
             }
         } else {
