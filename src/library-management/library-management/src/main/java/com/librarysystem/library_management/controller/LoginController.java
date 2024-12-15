@@ -14,28 +14,23 @@ public class LoginController {
 
     @Autowired
     private UserRepository userRepository;
-
-    // Handles GET request to show the login page
     @GetMapping("/")
     public String showLoginPage() {
-        return "login";  // This returns login.html as the login page
-    }
+        return "login";  }
 
-    // Handles POST request for form submission
     @PostMapping("/login")
     public String login(@RequestParam String username, @RequestParam String password, Model model) {
-        // Check credentials from the database
         User user = userRepository.findByUsername(username);
 
         if (user != null && user.getPassword().equals(password)) {
             if (user.getRole().equals("Admin")) {
-                return "admin";  // Redirect to admin page if user is admin
+                return "admin";
             } else {
-                return "home";   // Redirect to home page for other users
+                return "home";
             }
         } else {
             model.addAttribute("error", "Invalid credentials.");
-            return "login";  // Return to login page if authentication fails
+            return "login";
         }
     }
 }
