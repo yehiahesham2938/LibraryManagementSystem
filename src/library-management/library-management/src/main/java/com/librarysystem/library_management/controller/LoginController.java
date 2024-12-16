@@ -30,6 +30,11 @@ public class LoginController {
 
 
         User user = userRepository.findByUsername(username);
+
+        if(user == null) {
+            model.addAttribute("error", "Invalid credentials.");
+            return "login";
+        }
         if (user.getPassword().equals(password)) {
 
             if (user.getRole().equals("Admin"))
@@ -40,7 +45,8 @@ public class LoginController {
             {
                 return "home";
             }
-        } else {
+        }
+        else {
 
             model.addAttribute("error", "Invalid credentials.");
             return "login";
