@@ -34,7 +34,7 @@ public class LoginController {
 
             if (user.getRole().equals("Admin"))
             {
-                return "admin";
+                return "Admin/admin";
             }
             else
             {
