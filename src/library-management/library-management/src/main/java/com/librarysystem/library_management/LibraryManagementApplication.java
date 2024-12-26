@@ -10,7 +10,7 @@ public class LibraryManagementApplication {
 		SpringApplication.run(LibraryManagementApplication.class, args);
 
 		System.out.println("Hello World");
-		System.out.println("Test");
+//		System.out.println("Test");
 	}
 
 

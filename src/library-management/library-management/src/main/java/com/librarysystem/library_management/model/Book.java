@@ -67,6 +67,7 @@ public class Book {
     @Lob
     @Column(name = "cover_photo")
     private byte[] coverPhoto;
+    private String encodedCoverPhoto;
 
     public byte[] getCoverPhoto() {
         return coverPhoto;
@@ -74,6 +75,13 @@ public class Book {
 
     public void setCoverPhoto(byte[] coverPhoto) {
         this.coverPhoto = coverPhoto;
+    }
+    public String getEncodedCoverPhoto() {
+        return encodedCoverPhoto;
+    }
+
+    public void setEncodedCoverPhoto(String encodedCoverPhoto) {
+        this.encodedCoverPhoto = encodedCoverPhoto;
     }
 
     @Column(name = "stock", nullable = false)
