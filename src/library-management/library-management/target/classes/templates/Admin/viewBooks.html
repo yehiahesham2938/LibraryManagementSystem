@@ -41,16 +41,19 @@
         <th>ISBN</th>
         <th>Publish Date</th>
         <th>Stock</th>
+        <th>Cover Photo</th>
     </tr>
     </thead>
     <tbody>
-
     <tr th:each="book : ${books}">
         <td th:text="${book.bookName}"></td>
         <td th:text="${book.authorName}"></td>
         <td th:text="${book.isbn}"></td>
         <td th:text="${book.publishDate}"></td>
         <td th:text="${book.stock}"></td>
+        <td>
+            <img th:src="'data:image/jpeg;base64,' + ${book.encodedCoverPhoto}" alt="Cover Photo" class="img-thumbnail" style="max-height: 100px;">
+        </td>
     </tr>
     </tbody>
 </table>
