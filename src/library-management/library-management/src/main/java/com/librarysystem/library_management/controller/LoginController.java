@@ -2,6 +2,7 @@ package com.librarysystem.library_management.controller;
 
 import com.librarysystem.library_management.model.User;
 import com.librarysystem.library_management.repository.UserRepository;
+import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -24,6 +25,11 @@ public class LoginController {
     {
         return "login";  }
 
+
+    @PostMapping("/logout")
+    public String logout() {
+        return "login";
+    }
 
     @PostMapping("/login")
     public String login(@RequestParam String username, @RequestParam String password, Model model) {

@@ -2,6 +2,7 @@ package com.librarysystem.library_management.controller;
 
 import com.librarysystem.library_management.model.Book;
 import com.librarysystem.library_management.repository.BookRepository;
+import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.ByteArrayResource;
 import org.springframework.core.io.Resource;
@@ -64,6 +65,17 @@ public class BookController {
     }
 
 
+
+//    @PostMapping("/logout")
+//    public String logout(HttpServletRequest request) {
+//        request.getSession().invalidate();
+//        return "login";
+//    }
+
+@GetMapping("/system-logs")
+public String ShowSystemLogs() {
+    return "Admin/SystemLogs";
+}
 
 
 
