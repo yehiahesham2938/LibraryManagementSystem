@@ -9,8 +9,7 @@ public class LibraryManagementApplication {
 	public static void main(String[] args) {
 		SpringApplication.run(LibraryManagementApplication.class, args);
 
-		System.out.println("Hello World");
-//		System.out.println("Test");
+		System.out.println("Hello Java");
 	}
 
 
