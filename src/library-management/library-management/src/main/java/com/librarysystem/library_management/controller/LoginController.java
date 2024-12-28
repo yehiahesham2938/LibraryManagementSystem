@@ -47,9 +47,11 @@ public class LoginController {
             if (user.getRole().equals("Admin")) {
                 return "Admin/admin";
             } else {
+                System.out.println("success user login");
                 return "User/home";
             }
         } else {
+            System.out.println("failed user login");
             model.addAttribute("error", "Invalid credentials.");
             return "login";
         }
