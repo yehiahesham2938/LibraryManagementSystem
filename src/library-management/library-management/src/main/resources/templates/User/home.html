@@ -12,6 +12,17 @@
 
 <h1>Library</h1>
 
+<div th:if="${param.error}">
+    <div class="alert alert-danger" role="alert">
+        <p th:text="${param.error}"></p>
+    </div>
+</div>
+
+<div th:if="${param.success}">
+    <div class="alert alert-success" role="alert">
+        <p th:text="${param.success}"></p>
+    </div>
+</div>
 <nav class="navbar">
     <ul>
         <li><a href="/user/home">Home</a></li>
@@ -32,10 +43,11 @@
             <p class="card-text" th:text="${book.authorName}">Author Name</p>
             <p class="card-text" th:text="'ISBN: ' + ${book.isbn}">ISBN</p>
             <p class="card-text" th:text="'Published: ' + ${book.publishDate}">Publish Date</p>
-            <form th:action="@{/borrow}" method="post">
+            <form th:action="@{/user/borrow}" method="post">
                 <input type="hidden" name="bookId" th:value="${book.id}">
                 <button type="submit" class="btn btn-dark mt-2">Borrow Book</button>
             </form>
+
         </div>
     </div>
 </div>

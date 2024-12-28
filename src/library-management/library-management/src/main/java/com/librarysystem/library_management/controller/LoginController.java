@@ -32,9 +32,9 @@ public class LoginController {
         return "login";
     }
 
-    @PostMapping("/login")
-    public String login(@RequestParam String username, @RequestParam String password, Model model) {
 
+    @PostMapping("/login")
+    public String login(@RequestParam String username, @RequestParam String password, Model model, HttpServletRequest request) {
 
         User user = userRepository.findByUsername(username);
 
@@ -43,20 +43,17 @@ public class LoginController {
             return "login";
         }
         if (user.getPassword().equals(password)) {
-
-            if (user.getRole().equals("Admin"))
-            {
+            request.getSession().setAttribute("userId", user.getUsername());
+            if (user.getRole().equals("Admin")) {
                 return "Admin/admin";
-            }
-            else
-            {
+            } else {
                 return "User/home";
             }
-        }
-        else {
-
+        } else {
             model.addAttribute("error", "Invalid credentials.");
             return "login";
         }
     }
+
+
 }
