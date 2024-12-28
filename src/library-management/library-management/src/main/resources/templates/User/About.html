@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Library</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        /* Styling the home page */
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+        }
+        h1 {
+            text-align: center;
+        }
+        main {
+            margin: 20px;
+        }
+        .navbar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background-color: hsl(0, 0%, 25%);
+            padding: 10px;
+        }
+        .navbar ul {
+            list-style-type: none;
+            padding: 0;
+            margin: 0;
+            display: flex;
+        }
+        .navbar li {
+            margin: 0 10px;
+        }
+        .navbar a {
+            color: white;
+            text-decoration: none;
+            padding: 10px;
+            text-align: center;
+        }
+        .navbar a:hover {
+            background-color: hsl(0, 0%, 10%);
+            border-radius: 5px;
+        }
+        .search-bar {
+            display: flex;
+            align-items: center;
+        }
+        .search-bar input {
+            padding: 5px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            margin-right: 5px;
+        }
+        .search-bar button {
+            padding: 5px 10px;
+            border: none;
+            border-radius: 5px;
+            background-color: lightblue;
+            color: grey;
+            cursor: pointer;
+        }
+        .search-bar button:hover {
+            background-color: grey;
+            color: lightblue;
+        }
+        /* Styling the button relative to the image */
+        .container {
+            position: relative;
+            width: 200px;
+            margin: 20px auto;
+            text-align: center;
+        }
+        .container img {
+            width: 100%;
+            height: auto;
+        }
+        .container button {
+            position: absolute;
+            bottom: 10px;
+            left: 50%;
+            transform: translateX(-50%);
+            padding: 10px 20px;
+            font-size: 15px;
+            background-color: grey;
+            color: lightblue;
+            border-radius: 10px;
+            border: none;
+            cursor: pointer;
+        }
+        .container button:hover {
+            background-color: lightblue;
+            color: grey;
+        }
+    </style>
+</head>
+<body>
+
+<h1>About</h1>
+<nav class="navbar">
+    <ul>
+        <li><a href="/user/home">Home</a></li>
+        <li><a href="/user/ViewProfile">View Profile</a></li>
+        <li><a href="/user/About">About</a></li>
+        <li><a href="/user/ContactUs">Contact Us</a></li>
+    </ul>
+</nav>
+</body>
+</html>
