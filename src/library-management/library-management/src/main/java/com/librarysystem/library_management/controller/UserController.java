@@ -8,19 +8,11 @@ import com.librarysystem.library_management.repository.UserRepository;
 
 import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.core.io.ByteArrayResource;
-import org.springframework.core.io.Resource;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.MediaType;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.validation.BindingResult;
-import org.springframework.validation.ObjectError;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.multipart.MultipartFile;
-import org.springframework.web.server.ResponseStatusException;
 
+import java.util.ArrayList;
 import java.util.Base64;
 import java.util.List;
 
@@ -58,7 +50,7 @@ public class UserController {
 
     @GetMapping("/ViewProfile")
     public String ViewProfile(){
-        return "User/ViewProfile";
+        return "BorrowedBooks";
     }
 
     @GetMapping("/About")
@@ -122,6 +114,30 @@ public class UserController {
     }
 
 
+    @GetMapping("/borrowedBooks")
+    public String viewBorrowedBooks(HttpServletRequest request, Model m) {
+        String username = (String) request.getSession().getAttribute("userId");
+        User user = userRepository.findByUsername(username);
+
+        List<BorrowedBook> borrowedBooks = borrowedBookRepository.findByUserId(username);
+        List<Book> borrowedBookDetails = new ArrayList<>();
+
+        for (BorrowedBook borrowedBook : borrowedBooks) {
+            Book book = bookRepository.findById(borrowedBook.getBookId()).orElse(null);
+            if (book != null)
+            {
+                if (book.getCoverPhoto() != null)
+                {
+                    String encodedImage = Base64.getEncoder().encodeToString(book.getCoverPhoto());
+                    book.setEncodedCoverPhoto(encodedImage);
+                }
+                borrowedBookDetails.add(book);
+            }
+        }
+
+        m.addAttribute("books", borrowedBookDetails);
+        return "User/BorrowedBooks";
+    }
 
 
 }
