@@ -50,7 +50,7 @@ public class LoginController {
             }
             else
             {
-                return "home";
+                return "User/home";
             }
         }
         else {

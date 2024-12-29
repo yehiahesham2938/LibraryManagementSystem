@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Library</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
     <style>
         /* Styling the home page */
         body {
@@ -101,7 +102,7 @@
 
 <nav class="navbar">
     <ul>
-        <li><a href="#">Home</a></li>
+        <li><a href="/User/home">Home</a></li>
         <li><a href="#">View Profile</a></li>
         <li><a href="#">About</a></li>
         <li><a href="#">Contact Us</a></li>
@@ -114,13 +115,30 @@
 
 <main>
     <h3>Welcome to the Home Page</h3>
-    <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Accusamus animi commodi, consequatur culpa cupiditate debitis distinctio esse excepturi expedita ipsum itaque mollitia necessitatibus nobis omnis optio quod ratione similique veniam.</p>
 </main>
 
-<div class="container">
-    <img src="Admin/img/img.jpg" alt="Book Cover">
-    <button>Borrow</button>
-</div>
+<table class="table table-bordered">
+    <thead>
+    <tr>
+        <th>Book Name</th>
+        <th>Author Name</th>
+        <th>ISBN</th>
+        <th>Publish Date</th>
+        <th>Cover Photo</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr th:each="book : ${books}">
+        <td th:text="${book.bookName}"></td>
+        <td th:text="${book.authorName}"></td>
+        <td th:text="${book.isbn}"></td>
+        <td th:text="${book.publishDate}"></td>
+        <td>
+            <img th:src="'data:image/jpeg;base64,' + ${book.encodedCoverPhoto}" alt="Cover Photo" class="img-thumbnail" style="max-height: 100px;">
+        </td>
+    </tr>
+    </tbody>
+</table>
 
 </body>
 </html>
