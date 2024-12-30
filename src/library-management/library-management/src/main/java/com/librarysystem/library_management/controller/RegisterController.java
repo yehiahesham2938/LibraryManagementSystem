@@ -1,6 +1,8 @@
 package com.librarysystem.library_management.controller;
 
+import com.librarysystem.library_management.model.SystemLog;
 import com.librarysystem.library_management.model.User;
+import com.librarysystem.library_management.repository.SystemLogRepository;
 import com.librarysystem.library_management.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -15,6 +17,10 @@ public class RegisterController {
     @Autowired
     private UserRepository userRepository;
 
+
+    @Autowired
+    private SystemLogRepository systemLogRepository;
+
     @GetMapping("/register")
     public String RegisterPage(Model model) {
         model.addAttribute("user", new User());
@@ -24,13 +30,13 @@ public class RegisterController {
     @PostMapping("/register")
     public String registerUser(User user, RedirectAttributes redirectAttributes) {
         if (userRepository.findByUsername(user.getUsername()) != null) {
+            systemLogRepository.save(new SystemLog("Failed registration attempt - Username already exists: " + user.getUsername()));
             redirectAttributes.addFlashAttribute("error", "Username already exists.");
             return "redirect:/register";
         }
         user.setRole("User");
         userRepository.save(user);
-//        redirectAttributes.addFlashAttribute("message", "Registration successful. Please log in.");
-        //Do not know where to show this message, so I am commenting it out.
+        systemLogRepository.save(new SystemLog("New user registered: " + user.getUsername()));
         return "login";
     }
 

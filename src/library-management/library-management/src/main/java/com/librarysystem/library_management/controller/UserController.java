@@ -3,10 +3,12 @@ package com.librarysystem.library_management.controller;
 import com.librarysystem.library_management.model.Book;
 import com.librarysystem.library_management.model.BorrowedBook;
 //import com.librarysystem.library_management.model.ReturnedBook;
+import com.librarysystem.library_management.model.SystemLog;
 import com.librarysystem.library_management.model.User;
 import com.librarysystem.library_management.repository.BookRepository;
 import com.librarysystem.library_management.repository.BorrowedBookRepository;
 //import com.librarysystem.library_management.repository.ReturnedBookRepository;
+import com.librarysystem.library_management.repository.SystemLogRepository;
 import com.librarysystem.library_management.repository.UserRepository;
 
 import jakarta.servlet.http.HttpServletRequest;
@@ -34,16 +36,20 @@ public class UserController {
     @Autowired
     private UserRepository userRepository;
 
+    @Autowired
+    private SystemLogRepository systemLogRepository;
+
+
 
     @GetMapping("")
     public String showUserPage(Model m) {
         List<Book> allBooks = bookRepository.findAll();
         for (Book book : allBooks) {
-            if (book.getCoverPhoto() != null) {
-                String encodedImage = Base64.getEncoder().encodeToString(book.getCoverPhoto());
-                book.setEncodedCoverPhoto(encodedImage);
-            }
+
+            String encodedImage = Base64.getEncoder().encodeToString(book.getCoverPhoto());
+            book.setEncodedCoverPhoto(encodedImage);
         }
+
         m.addAttribute("books", allBooks);
         return "User/home";
     }
@@ -67,38 +73,41 @@ public class UserController {
     public String viewBooks(Model m) {
         List<Book> books = bookRepository.findAll();
         for (Book book : books) {
-            if (book.getCoverPhoto() != null) {
-                String encodedImage = Base64.getEncoder().encodeToString(book.getCoverPhoto());
-                book.setEncodedCoverPhoto(encodedImage);
-            }
+
+            String encodedImage = Base64.getEncoder().encodeToString(book.getCoverPhoto());
+            book.setEncodedCoverPhoto(encodedImage);
         }
+
         m.addAttribute("books", books);
         return "User/home";
     }
 
     //This method handle borrowing the book, and checks if each book have at least 1 book in stock.
+
     @PostMapping("/borrow")
     public String borrowBook(@RequestParam("bookId") int bookId, HttpServletRequest request) {
         String username = (String) request.getSession().getAttribute("userId");
         User user = userRepository.findByUsername(username);
         Book book = bookRepository.findById(bookId).orElse(null);
+
         BorrowedBook existingBorrowedBook = borrowedBookRepository.findByBookIdAndUserId(bookId, username);
         if (existingBorrowedBook != null) {
+            systemLogRepository.save(new SystemLog("Failed borrow attempt - Book already borrowed. User: " + username + ", Book: " + book.getBookName()));
             return "redirect:/user/home?error=You have already borrowed this book.";
         }
-        if (book.getStock() > 0)
-        {
+
+        if (book.getStock() > 0) {
             book.setStock(book.getStock() - 1);
             bookRepository.save(book);
             BorrowedBook borrowedBook = new BorrowedBook();
             borrowedBook.setBookId(bookId);
             borrowedBook.setUserId(user.getUsername());
-
             borrowedBookRepository.save(borrowedBook);
+
+            systemLogRepository.save(new SystemLog("User " + username + " borrowed book: " + book.getBookName()));
             return "redirect:/user/home?success=Book borrowed successfully!";
-        }
-        else
-        {
+        } else {
+            systemLogRepository.save(new SystemLog("Failed borrow attempt - Book out of stock. User: " + username + ", Book: " + book.getBookName()));
             return "redirect:/user/home?error=Book out of stock.";
         }
     }
@@ -111,12 +120,10 @@ public class UserController {
         for (BorrowedBook borrowedBook : borrowedBooks)
         {
             Book book = bookRepository.findById(borrowedBook.getBookId()).orElse(null);
-            if (book != null)
-            {
-                String encodedImage = Base64.getEncoder().encodeToString(book.getCoverPhoto());
-                book.setEncodedCoverPhoto(encodedImage);
-                borrowedBookDetails.add(book);
-            }
+            String encodedImage = Base64.getEncoder().encodeToString(book.getCoverPhoto());
+            book.setEncodedCoverPhoto(encodedImage);
+            borrowedBookDetails.add(book);
+
         }
 
         m.addAttribute("books", borrowedBookDetails);
@@ -158,17 +165,14 @@ public class UserController {
     @PostMapping("/return")
     public String returnBook(@RequestParam("bookId") int bookId, HttpServletRequest request) {
         String username = (String) request.getSession().getAttribute("userId");
-
         Book book = bookRepository.findById(bookId).orElse(null);
 
         book.setStock(book.getStock() + 1);
         bookRepository.save(book);
 
         BorrowedBook borrowedBook = borrowedBookRepository.findByBookIdAndUserId(bookId, username);
-        if (borrowedBook != null) {
-            borrowedBookRepository.delete(borrowedBook);
-        }
-
+        borrowedBookRepository.delete(borrowedBook);
+        systemLogRepository.save(new SystemLog("User " + username + " returned book: " + book.getBookName()));
         return "User/BorrowedBooks";
     }
 

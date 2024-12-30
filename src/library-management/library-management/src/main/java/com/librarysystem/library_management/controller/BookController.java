@@ -1,7 +1,9 @@
 package com.librarysystem.library_management.controller;
 
 import com.librarysystem.library_management.model.Book;
+import com.librarysystem.library_management.model.SystemLog;
 import com.librarysystem.library_management.repository.BookRepository;
+import com.librarysystem.library_management.repository.SystemLogRepository;
 import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.ByteArrayResource;
@@ -39,7 +41,8 @@ public class BookController {
         return "Admin/addBook";
     }
 
-
+    @Autowired
+    private SystemLogRepository systemLogRepository;
 
 
 //    @GetMapping("/view-books")
@@ -73,7 +76,9 @@ public class BookController {
 //    }
 
 @GetMapping("/system-logs")
-public String ShowSystemLogs() {
+public String ShowSystemLogs(Model model) {
+    List<SystemLog> logs = systemLogRepository.findAllByOrderByTimestampDesc();
+    model.addAttribute("logs", logs);
     return "Admin/SystemLogs";
 }
 
@@ -82,9 +87,8 @@ public String ShowSystemLogs() {
 
 
     @PostMapping("/create-book")
-    public String addBook(
-            @ModelAttribute Book book,
-            @RequestParam("coverPhotoFile") MultipartFile coverPhotoFile) throws IOException {
+    public String addBook(@ModelAttribute Book book, @RequestParam("coverPhotoFile") MultipartFile coverPhotoFile) throws IOException
+    {
         Book existingBook = bookRepository.findByIsbn(book.getIsbn());
         if (existingBook != null) {
             return "error";
