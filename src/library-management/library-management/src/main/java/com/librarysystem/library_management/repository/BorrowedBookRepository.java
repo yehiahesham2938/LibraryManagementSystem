@@ -6,4 +6,6 @@ import java.util.List;
 
 public interface BorrowedBookRepository extends JpaRepository<BorrowedBook, Integer> {
     List<BorrowedBook> findByUserId(String userId);
+
+    BorrowedBook findByBookIdAndUserId(int bookId, String username);
 }
