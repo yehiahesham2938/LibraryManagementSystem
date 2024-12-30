@@ -18,7 +18,6 @@ import org.springframework.validation.ObjectError;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.server.ResponseStatusException;
-
 import java.io.IOException;
 import java.util.Base64;
 import java.util.List;
@@ -98,6 +97,11 @@ public String ShowSystemLogs(Model model) {
         return "Admin/addBook";
     }
 
+    @GetMapping("/delete-book/{id}")
+    public String deleteBook(@PathVariable int id) {
+        bookRepository.deleteById(id);
+        return "redirect:/admin/view-books";
+    }
 
 
 
