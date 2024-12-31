@@ -1,0 +1,32 @@
+@startuml
+
+package "Presentation Layer" {
+    [User Interface] as UI
+    [Admin Interface] as AI
+}
+
+package "Business Logic Layer" {
+    [User Management Service] as UMS
+    [Book Management Service] as BMS
+    [Transaction Service] as TS
+    [Logging Service] as LS
+}
+
+package "Data Layer" {
+    [User Repository] as UR
+    [Book Repository] as BR
+    [Transaction Repository] as TR
+    [Log Repository] as LR
+}
+
+UI --> UMS : "Register/Login/Search"
+AI --> BMS : "Add/Update/Delete Books"
+UI --> TS : "Borrow/Return/Reserve Books"
+AI --> LS : "View Logs"
+
+UMS --> UR : "Access User Data"
+BMS --> BR : "Access Book Data"
+TS --> TR : "Record Transactions"
+LS --> LR : "Fetch Logs"
+
+@enduml

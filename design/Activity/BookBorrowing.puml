@@ -1,0 +1,20 @@
+@startuml
+start
+:Log in as User;
+:Search for Book by Title/Author/ISBN;
+if (Book Found?) then (yes)
+    :Check Availability in Inventory;
+    if (Book Available?) then (yes)
+        :Select Borrow Option;
+        :Enter Due Date;
+        :Update Inventory (Reduce Stock);
+        :Record Borrow Transaction;
+    else (no)
+        :Show "Book Unavailable" Message;
+        :Prompt User to Reserve Book;
+    endif
+else (no)
+    :Show "No Results Found" Message;
+endif
+stop
+@enduml

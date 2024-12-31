@@ -1,0 +1,10 @@
+@startuml
+actor User
+participant "Library System" as LibrarySystem
+
+User -> LibrarySystem: Select 'Search Book' option
+LibrarySystem -> User: Display search form
+User -> LibrarySystem: Enter search criteria
+LibrarySystem -> LibrarySystem: Search for books matching criteria
+LibrarySystem -> User: Display search results
+@enduml

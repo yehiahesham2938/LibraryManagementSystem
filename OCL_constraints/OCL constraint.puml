@@ -1,0 +1,90 @@
+@startuml
+
+class User {
+    + String name
+    + String email
+    + Integer age
+    + List<Book> borrowedBooks
+    + void register()
+    + void login()
+    + void searchBook()
+    + void borrowBook(Book book)
+    + void returnBook(Book book)
+    + void reserveBook(Book book)
+}
+
+class Admin {
+    + String username
+    + String password
+    + void addBook(Book book)
+    + void updateBook(Book book)
+    + void removeBook(Book book)
+    + void viewLogs()
+}
+
+class Book {
+    + String title
+    + String author
+    + String ISBN
+    + Date publishDate
+    + Integer stock
+    + void checkAvailability()
+}
+
+class BorrowTransaction {
+    + User user
+    + Book book
+    + Date borrowDate
+    + Date dueDate
+}
+
+class ReturnTransaction {
+    + User user
+    + Book book
+    + Date returnDate
+}
+
+class Reservation {
+    + User user
+    + Book book
+    + Date reservationDate
+}
+
+User "1" -- "0..*" BorrowTransaction : borrows
+User "1" -- "0..*" ReturnTransaction : returns
+User "1" -- "0..*" Reservation : reserves
+Book "1" -- "0..*" BorrowTransaction : is borrowed
+Book "1" -- "0..*" ReturnTransaction : is returned
+Book "1" -- "0..*" Reservation : is reserved
+Admin "1" -- "0..*" Book : manages
+
+note right of User
+OCL Constraints:
+1. age > 18 (Users must be adults).
+2. User.allInstances()->isUnique(u | u.email)
+   (Each user must have a unique email address).
+end note
+
+note right of Book
+OCL Constraints:
+1. stock >= 0 (Books cannot have negative stock).
+end note
+
+note right of BorrowTransaction
+OCL Constraints:
+1. borrowDate < dueDate (Borrow date must precede due date).
+end note
+
+note right of ReturnTransaction
+OCL Constraints:
+1. returnDate >= borrowDate
+   (Return date cannot be earlier than borrow date).
+end note
+
+note right of Reservation
+OCL Constraints:
+1. Reservation.allInstances()->isUnique(r | r.user and r.book)
+   (A user can only reserve the same book once at a time).
+end note
+
+@enduml

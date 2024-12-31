@@ -1,0 +1,54 @@
+@startuml
+
+package "Library Management System" {
+    class User {
+        + String name
+        + String email
+        + Integer age
+        + List<Book> borrowedBooks
+    }
+
+    class Admin {
+        + String username
+        + String password
+        + void addBook(Book)
+        + void updateBook(Book)
+        + void removeBook(Book)
+    }
+
+    class Book {
+        + String title
+        + String author
+        + String ISBN
+        + Date publishDate
+        + Integer stock
+    }
+
+    class BorrowTransaction {
+        + User user
+        + Book book
+        + Date borrowDate
+        + Date dueDate
+    }
+
+    class ReturnTransaction {
+        + User user
+        + Book book
+        + Date returnDate
+    }
+
+    class Reservation {
+        + User user
+        + Book book
+        + Date reservationDate
+    }
+
+    User --> BorrowTransaction : "borrows"
+    User --> ReturnTransaction : "returns"
+    User --> Reservation : "reserves"
+    Admin --> Book : "manages"
+    Book --> BorrowTransaction : "borrowed"
+    Book --> Reservation : "reserved"
+}
+
+@enduml

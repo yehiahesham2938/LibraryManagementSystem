@@ -1,0 +1,13 @@
+@startuml
+start
+:Open Registration Page;
+:Fill User Details (Name, Email, Age);
+if (Are details valid?) then (yes)
+    :Create User Account;
+    :Send Confirmation Email;
+else (no)
+    :Show Error Message;
+    :Prompt User to Re-enter Details;
+endif
+stop
+@enduml

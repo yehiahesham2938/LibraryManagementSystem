@@ -1,0 +1,55 @@
+@startuml
+
+entity User {
+    * id : Integer [PK]
+    * name : String
+    * email : String [Unique]
+    * age : Integer
+}
+
+entity Admin {
+    * id : Integer [PK]
+    * username : String
+    * password : String
+}
+
+entity Book {
+    * id : Integer [PK]
+    * title : String
+    * author : String
+    * ISBN : String [Unique]
+    * publishDate : Date
+    * stock : Integer
+}
+
+entity Borrow {
+    * id : Integer [PK]
+    * userId : Integer [FK -> User.id]
+    * bookId : Integer [FK -> Book.id]
+    * borrowDate : Date
+    * dueDate : Date
+}
+
+entity Return {
+    * id : Integer [PK]
+    * userId : Integer [FK -> User.id]
+    * bookId : Integer [FK -> Book.id]
+    * returnDate : Date
+}
+
+entity Reservation {
+    * id : Integer [PK]
+    * userId : Integer [FK -> User.id]
+    * bookId : Integer [FK -> Book.id]
+    * reservationDate : Date
+}
+
+User ||--o{ Borrow : borrows
+User ||--o{ Return : returns
+User ||--o{ Reservation : reserves
+Book ||--o{ Borrow : is borrowed
+Book ||--o{ Return : is returned
+Book ||--o{ Reservation : is reserved
+Admin ||--o{ Book : manages
+
+@enduml

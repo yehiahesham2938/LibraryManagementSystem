@@ -1,0 +1,33 @@
+@startuml
+
+left to right direction
+
+actor User
+actor Admin
+
+package "Library Management System" {
+    usecase "Register Account" as UC1
+    usecase "Search Book" as UC2
+    usecase "Borrow Book" as UC3
+    usecase "Return Book" as UC4
+    usecase "View Borrowing History" as UC5
+    usecase "Reserve Book" as UC6
+    usecase "Add Book" as UC7
+    usecase "Update Book" as UC8
+    usecase "Remove Book" as UC9
+    usecase "View System Logs" as UC10
+}
+
+User --> UC1 : "Registers"
+User --> UC2 : "Searches"
+User --> UC3 : "Borrows"
+User --> UC4 : "Returns"
+User --> UC5 : "Views History"
+User --> UC6 : "Reserves"
+
+Admin --> UC7 : "Adds Books"
+Admin --> UC8 : "Updates Books"
+Admin --> UC9 : "Removes Books"
+Admin --> UC10 : "Views Logs"
+
+@enduml

@@ -1,0 +1,34 @@
+@startuml
+start
+:Log in as Admin;
+:Open Book Management Panel;
+if (Select Action) then (Add)
+    :Fill Book Details (Title, Author, ISBN, Publish Date, Stock);
+    if (Details Valid?) then (yes)
+        :Add Book to Inventory;
+        :Show Success Message;
+    else (no)
+        :Show Error Message;
+        :Prompt Admin to Correct Details;
+    endif
+else if (Update)
+    :Search for Book by Title/ISBN;
+    if (Book Found?) then (yes)
+        :Modify Book Details;
+        :Save Changes;
+        :Show Success Message;
+    else (no)
+        :Show "Book Not Found" Message;
+    endif
+else if (Remove)
+    :Search for Book by Title/ISBN;
+    if (Book Found?) then (yes)
+        :Confirm Removal;
+        :Delete Book from Inventory;
+        :Show Success Message;
+    else (no)
+        :Show "Book Not Found" Message;
+    endif
+endif
+stop
+@enduml

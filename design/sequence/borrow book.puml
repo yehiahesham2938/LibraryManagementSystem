@@ -1,0 +1,11 @@
+@startuml
+actor User
+participant "Library System" as LibrarySystem
+
+User -> LibrarySystem: Select 'Borrow Book' option
+LibrarySystem -> LibrarySystem: Search available books
+LibrarySystem -> User: Display list of available books
+User -> LibrarySystem: Select book and provide due date
+LibrarySystem -> LibrarySystem: Validate due date
+LibrarySystem -> User: Confirm borrowing
+@enduml

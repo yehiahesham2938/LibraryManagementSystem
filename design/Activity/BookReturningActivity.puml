@@ -1,0 +1,14 @@
+@startuml
+start
+:Log in as User;
+:View Borrowed Books List;
+:Select Book to Return;
+if (Is Book Borrowed by User?) then (yes)
+    :Update Inventory (Increase Stock);
+    :Record Return Transaction;
+    :Show Confirmation Message;
+else (no)
+    :Show "Invalid Return" Message;
+endif
+stop
+@enduml

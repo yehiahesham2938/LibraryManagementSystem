@@ -1,0 +1,29 @@
+@startuml
+
+[*] --> LoginPage : "Open App"
+
+state LoginPage {
+    [*] --> EnterCredentials : "Enter Username/Password"
+    EnterCredentials --> LoginSuccess : "Valid Credentials"
+    EnterCredentials --> LoginFailure : "Invalid Credentials"
+    LoginFailure --> EnterCredentials : "Retry"
+    LoginSuccess --> [*] : "Proceed to HomePage"
+}
+
+state HomePage {
+    [*] --> SearchBooks : "Search for Books"
+    SearchBooks --> ViewBookDetails : "Select Book"
+    ViewBookDetails --> HomePage : "Go Back"
+    ViewBookDetails --> BorrowBook : "Borrow Book"
+    BorrowBook --> HomePage : "Return to Home"
+
+    HomePage --> ViewBorrowedBooks : "View Borrowed Books"
+    ViewBorrowedBooks --> ReturnBook : "Return Book"
+    ReturnBook --> HomePage : "Back to Home"
+    ViewBorrowedBooks --> HomePage : "Back to Home"
+}
+
+HomePage --> LogoutPage : "Log Out"
+LogoutPage --> [*] : "Close App"
+
+@enduml

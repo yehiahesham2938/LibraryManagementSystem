@@ -1,0 +1,50 @@
+@startuml
+
+class User {
+    + String name
+    + String email
+    + Integer age
+    + List<Book> borrowedBooks
+}
+
+class Admin {
+    + String username
+    + String password
+}
+
+class Book {
+    + String title
+    + String author
+    + String ISBN
+    + Date publishDate
+    + Integer stock
+}
+
+class BorrowTransaction {
+    + User user
+    + Book book
+    + Date borrowDate
+    + Date dueDate
+}
+
+class ReturnTransaction {
+    + User user
+    + Book book
+    + Date returnDate
+}
+
+class Reservation {
+    + User user
+    + Book book
+    + Date reservationDate
+}
+
+User "1" -- "0..*" BorrowTransaction : borrows
+User "1" -- "0..*" ReturnTransaction : returns
+User "1" -- "0..*" Reservation : reserves
+Book "1" -- "0..*" BorrowTransaction : is borrowed
+Book "1" -- "0..*" ReturnTransaction : is returned
+Book "1" -- "0..*" Reservation : is reserved
+Admin "1" -- "0..*" Book : manages
+
+@enduml
